@@ -22,7 +22,7 @@ Please read INSTALL
 Usage
 =====
 
-python cinephile.py -s movie_dir -r imdb_rating [-g action]
+python cinephile.py -s movie_dir -r imdb_rating [-g genre]
 
 Example
 =======
