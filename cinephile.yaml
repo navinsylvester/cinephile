@@ -1,5 +1,5 @@
 #Directories to ignore
-#Example: ignore: ['UNRATED', 'TV Series']
+#Example: ignore_dir: ['UNRATED', 'TV Series']
 ignore_dir: ['TV Series']
 
 #Movie file extensions to scan
