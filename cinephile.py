@@ -143,7 +143,8 @@ def _parse_args():
 
     return parse
 
-def _main(parsed_args):
+def main():
+    parsed_args = _parse_args()
     movie_dir = parsed_args.source_dir
     rating = parsed_args.rating
     genre = parsed_args.genre
@@ -151,4 +152,4 @@ def _main(parsed_args):
     scan_dir(movie_dir, rating, genre)
 
 if __name__ == '__main__':
-    _main(_parse_args())
+    main()
