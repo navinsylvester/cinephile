@@ -101,8 +101,19 @@ def scan_dir(movie_dir, rating, genre):
         print "Scan directory doesn't exist"
         return
 
+    config_file = None
+    config_paths = ['cinephile.yaml', os.path.expanduser('~/.cinephile.yaml')]
+    for path in config_paths:
+        if os.path.exists(path):
+            config_file = path
+            break
+
+    if not config_file:
+        print 'No cinephile.yaml found.'
+        return
+
     #Read yaml file to get config
-    with open('cinephile.yaml') as stream:
+    with open(config_file) as stream:
         config = yaml.load(stream)
 
     file_ext_list = config['file_ext'].replace(",", "|")

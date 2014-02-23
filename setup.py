@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
 import os
+import shutil
 try:
     from setuptools import setup, find_packages
 except ImportError:
@@ -11,6 +12,11 @@ except ImportError:
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+
+def create_config():
+    print 'Installing config file to %s' % os.path.expanduser('~/.cinephile.yaml')
+    shutil.copyfile('cinephile.yaml', os.path.expanduser('~/.cinephile.yaml'))
 
 
 setup(
@@ -29,7 +35,11 @@ setup(
     install_requires=[
         'PyYAML >= 3.10',
     ],
-    packages=find_packages(exclude=['ez_setup']),
+    py_modules=['cinephile'],
+    # FIXME: Packaging scripts doesn't work this way for single file packages.
+    # They should be moved to a directory for packaging data files.
+    data_files=['cinephile.yaml'],
+    include_package_data = True,
     entry_points={
         'console_scripts': ['cinephile = cinephile:main']
     },
@@ -44,3 +54,6 @@ setup(
     ],
     zip_safe=True
 )
+
+# Save the config file in ~/.cinephile.yaml
+create_config()
