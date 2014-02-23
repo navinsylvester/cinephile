@@ -27,16 +27,15 @@ def get_movie_info(movie_filename, order_list, rating, votes, genre=None):
     if parsed_json['Response'] == 'False':
         return
 
-    if "imdbRating" in parsed_json:
-        if parsed_json['imdbRating'] != "N/A":
-            if genre is None or genre.capitalize() in parsed_json['Genre']:
-                if float(parsed_json['imdbRating']) >= rating and parsed_json['imdbVotes'] > votes:
-                    for order in order_list:
-                        spaces = ''
-                        for i in range(indent - len(order)):
-                            spaces += ' '
-                        print order + spaces +': ' + parsed_json[order]
-                    print '\n'
+    if "imdbRating" in parsed_json and parsed_json['imdbRating'] != "N/A":
+        if genre is None or genre.capitalize() in parsed_json['Genre']:
+            if float(parsed_json['imdbRating']) >= rating and parsed_json['imdbVotes'] > votes:
+                for order in order_list:
+                    spaces = ''
+                    for i in range(indent - len(order)):
+                        spaces += ' '
+                    print order + spaces +': ' + parsed_json[order]
+                print '\n'
 
     connection.close()
 
