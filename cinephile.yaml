@@ -1,0 +1,23 @@
+#Directories to ignore
+#Example: ignore: ['UNRATED', 'TV Series']
+ignore_dir: ['TV Series']
+
+#Movie file extensions to scan
+file_ext: avi,divx,mkv,mpg,mp4,wmv,bin,ogm,vob,iso,img,bin,ts,rmvb,3gp,asf,flv,mov,movx,mpe,mpeg,mpg,mpv,ogg,ogm,ram,rm,wm,wmx,x264,xvid,dv
+
+#Unnecessary words to remove from filename
+purge_words: divx,dvdscr,aac,dvdrip,brrip,UNRATED,WEBSCR,KLAXXON,xvid,r5,com--scOrp,300mbunited,1channel,3channel,bray,blueray,5channel,1GB,1080p,720p,480p,CD1,CD2,CD3,CD4,x264-sUN,Special Edition,Sample,sample
+
+#Remove 4 digits in a row. Mostly useed for release year.
+remove_year: yes
+
+#Convert roman numeral to integer
+convert_roman: no
+
+#Order list for printing movie information
+#The following are the options that are available information which can be added to order_list
+#Plot,Rated,Language,Title,Country,Writer,Metascore,imdbRating,Director,Released,Actors,Year,Genre,Awards,Runtime,Type,Poster,imdbVotes,imdbID
+order_list: ['Title', 'imdbRating', 'Genre', 'Released', 'Actors', 'Director', 'Runtime', 'Rated', 'Plot']
+
+#Minimum number of votes required to take the movie rating into consideration
+votes: 500

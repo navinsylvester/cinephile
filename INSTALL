@@ -1,0 +1,17 @@
+Requirement
+===========
+
+easy_install yaml
+
+[or]
+
+pip install yaml
+
+Get Cinephile
+=============
+
+git clone https://github.com/navinsylvester/cinephile.git
+
+cd cinephile
+
+See README for further details
