@@ -19,6 +19,11 @@ Installation
 
 Please read INSTALL
 
+Configuration
+=============
+
+After installation the config file .cinephile.yaml can be found under user's home directory.
+
 Usage
 =====
 
