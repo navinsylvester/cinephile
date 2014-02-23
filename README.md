@@ -27,14 +27,14 @@ After installation the config file .cinephile.yaml can be found under user's hom
 Usage
 =====
 
-python cinephile.py -s movie_dir -r imdb_rating [-g genre]
+cinephile -s movie_dir -r imdb_rating [-g genre]
 
 Example
 =======
 
-python cinephile.py -s /media/disk/movies -r 7
+cinephile -s /media/disk/movies -r 7
 
-python cinephile.py -s /media/disk/movies -r 7 -g action
+cinephile -s /media/disk/movies -r 7 -g action
 
 Output Sample
 =============
