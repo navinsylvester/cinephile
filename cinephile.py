@@ -102,7 +102,12 @@ def scan_dir(movie_dir, rating, genre):
         return
 
     config_file = None
-    config_paths = ['cinephile.yaml', os.path.expanduser('~/.cinephile.yaml')]
+    config_paths = [
+        'cinephile.yaml',
+        os.path.expanduser('~/.cinephile.yaml'),
+        os.path.join(os.path.dirname(__file__), 'cinephile.yaml')
+    ]
+
     for path in config_paths:
         if os.path.exists(path):
             config_file = path
