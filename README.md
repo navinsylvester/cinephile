@@ -1,7 +1,7 @@
 cinephile
 =========
 
-Python CLI tool to scan movies directory recursively, normalize the filename and retrieve useful information from imdb.
+Python CLI tool to scan movie directory recursively, normalize the filename and retrieve useful information from imdb.
 
 Features
 ========
