@@ -6,7 +6,7 @@ Python CLI tool to scan movie directory recursively, normalize the filename and 
 Features
 ========
 
-  1)File name normalization
+  1)Filename normalization
 
   2)Yaml config for customization
 
