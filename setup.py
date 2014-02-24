@@ -15,7 +15,7 @@ def read(fname):
 
 
 def create_config():
-    print 'Installing config file to %s' % os.path.expanduser('~/.cinephile.yaml')
+    print '\n\nInstalling config file to %s\n\n' % os.path.expanduser('~/.cinephile.yaml')
     shutil.copyfile('cinephile.yaml', os.path.expanduser('~/.cinephile.yaml'))
 
 
@@ -36,8 +36,6 @@ setup(
         'PyYAML >= 3.10',
     ],
     py_modules=['cinephile'],
-    # FIXME: Packaging scripts doesn't work this way for single file packages.
-    # They should be moved to a directory for packaging data files.
     data_files=['cinephile.yaml'],
     include_package_data = True,
     entry_points={
@@ -50,7 +48,7 @@ setup(
         'Environment :: Console',
         'Topic :: Internet',
         'Topic :: Internet :: WWW/HTTP',
-        'TTopic :: Utilities'
+        'Topic :: Utilities'
     ],
     zip_safe=True
 )
