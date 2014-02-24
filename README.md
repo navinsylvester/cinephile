@@ -6,13 +6,11 @@ Python CLI tool to scan movie directory recursively, normalize the filename and 
 Features
 ========
 
-  1)Filename normalization
-
-  2)Yaml config for customization
-
-  3)Filter based on imdb rating
-
-  4)Filter based on imdb rating along with genre
+* Filename normalization
+* Yaml config for customization
+* Filter based on imdb rating
+* Filter based on imdb rating along with genre
+* Download subtitles for a movie file in preferred language
 
 Installation
 ============
@@ -27,34 +25,44 @@ After installation the config file .cinephile.yaml can be found under user's hom
 Usage
 =====
 
-cinephile -s movie_dir -r imdb_rating [-g genre]
+To get IMDB info
+
+    cinephile movie -s movie_dir -r imdb_rating [-g genre]
+
+To download subtititles
+
+    cinephile subtitle -f ~/Movies/Anchorman.The.Legend.Of.Ron.Burgundy.2004.720p.BrRip.x264.BOKUTOX.YIFY.mp4 -l en
 
 Example
 =======
 
-cinephile -s /media/disk/movies -r 7
-
-cinephile -s /media/disk/movies -r 7 -g action
+    cinephile movie -s /media/disk/movies -r 7
+    cinephile movie -s /media/disk/movies -r 7 -g action
+    cinephile subtitle -f ~/Movies/Dexter.mp4 -l en
 
 Output Sample
 =============
 
-Title       : Paul<br/>
-imdbRating  : 7.1<br/>
-Genre       : Adventure, Comedy, Sci-Fi<br/>
-Released    : 18 Mar 2011<br/>
-Actors      : Mia Stallard, Simon Pegg, Nick Frost, Jeremy Owen<br/>
-Director    : Greg Mottola<br/>
-Runtime     : 104 min<br/>
-Rated       : R<br/>
-Plot        : Two British comic-book geeks traveling across the U.S. encounter an alien outside Area 51.
+    sreejitk@gerty ~ $ cinephile movie -s ~/Movies -r 8
+    Title       : Dexter
+    imdbRating  : 9.1
+    Genre       : Crime, Drama, Mystery
+    Released    : 01 Oct 2006
+    Actors      : Michael C. Hall, Jennifer Carpenter, David Zayas, James Remar
+    Director    : N/A
+    Runtime     : 60 min
+    Rated       : TV-MA
+    Plot        : A Miami police forensics expert moonlights as a serial killer of criminalswho he believes have escaped justice.
+    File path   : /Users/sreejitk/Movies/dexter.mp4
 
-Title       : Groundhog Day<br/>
-imdbRating  : 8.1<br/>
-Genre       : Comedy, Drama, Fantasy<br/>
-Released    : 12 Feb 1993<br/>
-Actors      : Bill Murray, Andie MacDowell, Chris Elliott, Stephen Tobolowsky<br/>
-Director    : Harold Ramis<br/>
-Runtime     : 101 min<br/>
-Rated       : PG<br/>
-Plot        : A weatherman finds himself living the same day over and over again.<br/>
+
+    Title       : Grave of the Fireflies
+    imdbRating  : 8.5
+    Genre       : Animation, Drama, War
+    Released    : 16 Apr 1988
+    Actors      : Tsutomu Tatsumi, Ayano Shiraishi, Yoshiko Shinohara, Akemi Yamaguchi
+    Director    : Isao Takahata
+    Runtime     : 89 min
+    Rated       : Unrated
+    Plot        : A tragic film covering a young boy and his little sister's struggle to survive in Japan during World War II.
+    File path   : /Users/sreejitk/Movies/Grave of the Fireflies (1988) 720p BRRiP x264 AAC-AMEET6233 (T.M.R.G)/Grave of the Fireflies (1988) 720p BRRiP x264 AAC-AMEET6233 (T.M.R.G).mp4
