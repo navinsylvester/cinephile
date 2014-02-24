@@ -126,6 +126,9 @@ def scan_dir(movie_dir, rating, genre):
     file_ext_list = config['file_ext'].replace(",", "|")
     purge_words_list = config['purge_words'].replace(",", "|")
 
+    # Remove duplicate movie names
+    movies = set()
+
     #Scan movie dir recursively
     for root, dirnames, filenames in os.walk(movie_dir, ):
         #Remove the directories mentioned in the ignore list
@@ -149,7 +152,9 @@ def scan_dir(movie_dir, rating, genre):
                     full_path.append(os.path.join(root, filename))
 
                     #Get movie details
-                    get_movie_info(movie_filename, config['order_list'], rating, config['votes'], full_path, genre)
+                    if movie_filename not in movies:
+                        get_movie_info(movie_filename, config['order_list'], rating, config['votes'], full_path, genre)
+                        movies.add(movie_filename)
             else:
                 print "Add file extensions to scan in cinephile.yaml"
                 return
@@ -171,7 +176,10 @@ def main():
     rating = parsed_args.rating
     genre = parsed_args.genre
 
-    scan_dir(movie_dir, rating, genre)
+    try:
+        scan_dir(movie_dir, rating, genre)
+    except KeyboardInterrupt:
+        print 'Exiting ...'
 
 if __name__ == '__main__':
     main()
