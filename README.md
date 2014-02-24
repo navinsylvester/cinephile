@@ -47,7 +47,8 @@ Actors      : Mia Stallard, Simon Pegg, Nick Frost, Jeremy Owen<br/>
 Director    : Greg Mottola<br/>
 Runtime     : 104 min<br/>
 Rated       : R<br/>
-Plot        : Two British comic-book geeks traveling across the U.S. encounter an alien outside Area 51.
+Plot        : Two British comic-book geeks traveling across the U.S. encounter an alien outside Area 51.<br/>
+File path   : /Users/navinsylvester/Movies/mainstream/english/comedy/Paul (2011)/Paul (2011).avi<br/>
 
 Title       : Groundhog Day<br/>
 imdbRating  : 8.1<br/>
@@ -58,3 +59,4 @@ Director    : Harold Ramis<br/>
 Runtime     : 101 min<br/>
 Rated       : PG<br/>
 Plot        : A weatherman finds himself living the same day over and over again.<br/>
+Path        : /Users/navinsylvester/Movies/mainstream/english/rc/Groundhog Day/Groundhog Day Special Edition 1993 [Eng].avi<br/>
