@@ -8,8 +8,8 @@ Features
 
 * Filename normalization
 * Yaml config for customization
-* Filter based on imdb rating
-* Filter based on imdb rating along with genre
+* Filter based on imdb rating alone or along with genre
+* Ignore duplicate movie names
 * Download subtitles for a movie file in preferred language
 
 Installation
