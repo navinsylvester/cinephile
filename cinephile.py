@@ -10,7 +10,7 @@ import json
 import yaml
 import argparse
 
-def get_movie_info(movie_filename, order_list, rating, votes, genre=None):
+def get_movie_info(movie_filename, order_list, rating, votes, full_path, genre=None):
     api_uri="www.omdbapi.com"
 
     params = urllib.urlencode({'t':movie_filename})
@@ -35,6 +35,8 @@ def get_movie_info(movie_filename, order_list, rating, votes, genre=None):
                     for i in range(indent - len(order)):
                         spaces += ' '
                     print order + spaces +': ' + parsed_json[order]
+
+                print "File path   :", full_path[0]
                 print '\n'
 
     connection.close()
@@ -133,6 +135,8 @@ def scan_dir(movie_dir, rating, genre):
                     dirnames.remove(val)
 
         for filename in filenames:
+            full_path = []
+
             if len(file_ext_list) > 1:
                 file_ext_expr = "(?P<name>.*)\.({0})".format(file_ext_list)
 
@@ -142,8 +146,10 @@ def scan_dir(movie_dir, rating, genre):
                     #Normalize filename
                     movie_filename = normalize_filename(movie_filename.group("name"), purge_words_list, config['remove_year'], config['convert_roman'])
 
+                    full_path.append(os.path.join(root, filename))
+
                     #Get movie details
-                    get_movie_info(movie_filename, config['order_list'], rating, config['votes'], genre)
+                    get_movie_info(movie_filename, config['order_list'], rating, config['votes'], full_path, genre)
             else:
                 print "Add file extensions to scan in cinephile.yaml"
                 return
