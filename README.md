@@ -10,9 +10,9 @@ Features
 
   2)Yaml config for customization
 
-  3)Filter based on imdb rating
+  3)Filter based on imdb rating alone or along with genre
 
-  4)Filter based on imdb rating along with genre
+  4)Ignore duplicate movie names
 
 Installation
 ============
