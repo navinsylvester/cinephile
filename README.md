@@ -43,7 +43,7 @@ Example
 Output Sample
 =============
 
-    sreejitk@gerty ~ $ cinephile movie -s ~/Movies -r 8
+    semk@gerty ~ $ cinephile movie -s ~/Movies -r 8
     Title       : Grave of the Fireflies
     imdbRating  : 8.5
     Genre       : Animation, Drama, War
@@ -76,7 +76,7 @@ Todo
 Add IMDB *fuzzy* search (optional) and select functionality. For example,
 
 
-    sreejitk@gerty ~ $ cinephile movie -s ~/Movies/The\ Hunger\ Games\ Catching\ Fire\ \(2013\) -r 4 --fuzzy
+    semk@gerty ~ $ cinephile movie -s ~/Movies/The\ Hunger\ Games\ Catching\ Fire\ \(2013\) -r 4 --fuzzy
     1.  Title: The Hunger Games (Year:2012)
     2.  Title: The Hunger Games: Catching Fire (Year:2013)
     3.  Title: The World Is Watching: Making the Hunger Games (Year:2012)
