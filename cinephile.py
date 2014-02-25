@@ -59,12 +59,12 @@ def fetch_subtitles(filename, language='en'):
 
 
 def get_movie_info(movie_filename, order_list, rating, votes, full_path, genre=None):
-    api_uri="www.omdbapi.com"
+    api_uri = "www.omdbapi.com"
 
-    params = urllib.urlencode({'t':movie_filename})
+    params = urllib.urlencode({'t': movie_filename})
     connection = httplib.HTTPConnection(api_uri)
 
-    connection.request("GET", "/?"+params)
+    connection.request("GET", "/?" + params)
     response = connection.getresponse()
 
     response_json = response.read()
@@ -82,7 +82,8 @@ def get_movie_info(movie_filename, order_list, rating, votes, full_path, genre=N
                     spaces = ''
                     for i in range(indent - len(order)):
                         spaces += ' '
-                    print order + spaces +': ' + parsed_json[order]
+
+                    print u''.join((order, spaces, ': ', parsed_json[order])).encode('utf-8')
 
                 print "File path   :", full_path[0]
                 print '\n'
@@ -121,8 +122,8 @@ def roman_to_int_repl(match):
 
 def roman_to_int(n):
     numeral_map = zip(
-    (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
-    ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I')
+        (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
+        ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I')
     )
 
     n = unicode(n).upper()
@@ -224,7 +225,7 @@ def run_subtitle_commands(args):
     fetch_subtitles(args.filename, args.language)
 
 
-def _parse_args():
+def run():
     parser = argparse.ArgumentParser(description='Fetch movie information from imdb')
 
     sub_parsers = parser.add_subparsers(help='Cinephile commands')
@@ -245,7 +246,7 @@ def _parse_args():
 
 def main():
     try:
-        _parse_args()
+        run()
     except KeyboardInterrupt:
         print 'Exiting ...'
 
