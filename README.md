@@ -69,3 +69,21 @@ Output Sample
     Plot        : A man, suffering from short-term memory loss, uses notes and tattoos to
     hunt for the man he thinks killed his wife.
     File path   : /Users/sreejitk/Movies/Memento (2000)/Memento.2000.720p.BluRay.x264.YIFY.mp4
+
+Todo
+====
+
+* Add IMDB *fuzzy* search (optional) and select functionality. For example,
+
+    cinephile movie -s ~/Movies/The\ Hunger\ Games\ Catching\ Fire\ \(2013\) -r 4 --fuzzy
+    
+    1. Title: The Hunger Games (Year:2012)
+    2. Title: The Hunger Games: Catching Fire (Year:2013)
+    3. Title: The World Is Watching: Making the Hunger Games (Year:2012)
+    4. Title: Hunger Games: Katniss & Rue (Year:2010)
+    5. Title: The Hunger Games: Poseidon's Son (Year:2012)
+    6. Title: The Hunger Games Johanna Mason Fan Film (Year:2011)
+    7. Title: The 47th Hunger Games (Year:2012)
+    8. Title: Hunger Games (Year:2012)
+    9. Title: The Hunger Games: A Reenactment - Part 1 (Year:2013)
+    10. Title: Hunger Games: The Second Quarter Quell (Year:2011)
