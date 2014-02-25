@@ -75,8 +75,8 @@ Todo
 
 * Add IMDB *fuzzy* search (optional) and select functionality. For example,
 
+
     cinephile movie -s ~/Movies/The\ Hunger\ Games\ Catching\ Fire\ \(2013\) -r 4 --fuzzy
-    
     1. Title: The Hunger Games (Year:2012)
     2. Title: The Hunger Games: Catching Fire (Year:2013)
     3. Title: The World Is Watching: Making the Hunger Games (Year:2012)
