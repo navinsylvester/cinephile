@@ -9,14 +9,62 @@ import sys
 import json
 import yaml
 import argparse
+import hashlib
+
+
+def get_hash(name):
+    """ This hash function receives the name of the file
+    and returns the hash code
+    """
+    readsize = 64 * 1024
+    with open(name, 'rb') as f:
+        size = os.path.getsize(name)
+        data = f.read(readsize)
+        f.seek(-readsize, os.SEEK_END)
+        data += f.read(readsize)
+    return hashlib.md5(data).hexdigest()
+
+
+def fetch_subtitles(filename, language='en'):
+    """ Fetch subtitles from SubDB. Saves it in the same directory
+    as the movie file.
+    """
+    file_hash = get_hash(filename)
+
+    base_url = 'http://api.thesubdb.com/?{0}'
+    user_agent = 'SubDB/1.0 (Cinephile/1.0; https://github.com/navinsylvester/cinephile)'
+    params = {
+        'action': 'download',
+        'language': language or 'en',
+        'hash': file_hash
+    }
+
+    url = base_url.format(urllib.urlencode(params))
+    req = urllib2.Request(url)
+    req.add_header('User-Agent', user_agent)
+
+    try:
+        response = urllib2.urlopen(req)
+        ext = response.info()['Content-Disposition'].split(".")[1]
+        sub_file = os.path.splitext(filename)[0] + "." + ext
+
+        with open(sub_file, "wb") as fout:
+            fout.write(response.read())
+
+        print 'Subtitle saved to %s.' % sub_file
+    except urllib2.URLError as e:
+        print 'Error fetching subtitles (Code: %r, Message: %s).' % (e.errno, e.reason)
+    except Exception:
+        print 'Unknown Error'
+
 
 def get_movie_info(movie_filename, order_list, rating, votes, full_path, genre=None):
-    api_uri="www.omdbapi.com"
+    api_uri = "www.omdbapi.com"
 
-    params = urllib.urlencode({'t':movie_filename})
+    params = urllib.urlencode({'t': movie_filename})
     connection = httplib.HTTPConnection(api_uri)
 
-    connection.request("GET", "/?"+params)
+    connection.request("GET", "/?" + params)
     response = connection.getresponse()
 
     response_json = response.read()
@@ -34,12 +82,14 @@ def get_movie_info(movie_filename, order_list, rating, votes, full_path, genre=N
                     spaces = ''
                     for i in range(indent - len(order)):
                         spaces += ' '
-                    print order + spaces +': ' + parsed_json[order]
+
+                    print u''.join((order, spaces, ': ', parsed_json[order])).encode('utf-8')
 
                 print "File path   :", full_path[0]
                 print '\n'
 
     connection.close()
+
 
 def normalize_filename(movie_filename, purge_words_list, remove_year, convert_roman):
     purge_words_list = "(?i)({0})(.*)$".format(purge_words_list)
@@ -65,13 +115,15 @@ def normalize_filename(movie_filename, purge_words_list, remove_year, convert_ro
 
     return re_str.rstrip().lstrip()
 
+
 def roman_to_int_repl(match):
     return str(roman_to_int(match.group(0)))
 
+
 def roman_to_int(n):
     numeral_map = zip(
-    (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
-    ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I')
+        (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
+        ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I')
     )
 
     n = unicode(n).upper()
@@ -83,6 +135,7 @@ def roman_to_int(n):
             i += len(numeral)
 
     return result
+
 
 def convert_roman(roman_str):
     string = roman_str.upper()
@@ -97,6 +150,7 @@ def convert_roman(roman_str):
             string = string[2:]
 
     print total
+
 
 def scan_dir(movie_dir, rating, genre):
     if not os.path.exists(movie_dir):
@@ -159,27 +213,43 @@ def scan_dir(movie_dir, rating, genre):
                 print "Add file extensions to scan in cinephile.yaml"
                 return
 
-def _parse_args():
+
+def run_movie_commands(args):
+    movie_dir = args.source_dir
+    rating = args.rating
+    genre = args.genre
+    scan_dir(movie_dir, rating, genre)
+
+
+def run_subtitle_commands(args):
+    fetch_subtitles(args.filename, args.language)
+
+
+def run():
     parser = argparse.ArgumentParser(description='Fetch movie information from imdb')
 
-    parser.add_argument('-s', '--source_dir', help='source directory of movies', required=True)
-    parser.add_argument('-r', '--rating', help='Fetch movies with imdb rating greater than or equal to provided value', type=float, required=True)
-    parser.add_argument('-g', '--genre', help='Filter by movie genre')
+    sub_parsers = parser.add_subparsers(help='Cinephile commands')
+    movie_parser = sub_parsers.add_parser('movie', help='Movie commands')
+    movie_parser.add_argument('-s', '--source_dir', help='source directory of movies', required=True)
+    movie_parser.add_argument('-r', '--rating', help='Fetch movies with imdb rating greater than or equal to provided value', type=float, required=True)
+    movie_parser.add_argument('-g', '--genre', help='Filter by movie genre')
+    movie_parser.set_defaults(func=run_movie_commands)
 
-    parse = parser.parse_args()
+    sub_parser = sub_parsers.add_parser('subtitle', help='Subtitles commands')
+    sub_parser.add_argument('-f', '--fetch', dest='filename', help='Fetch subtitles', required=True)
+    sub_parser.add_argument('-l', '--lang', dest='language', help='Choose Language (en,es,fr,it,nl,pl,pt,ro,sv,tr)')
+    sub_parser.set_defaults(func=run_subtitle_commands)
 
-    return parse
+    args = parser.parse_args()
+    args.func(args)
+
 
 def main():
-    parsed_args = _parse_args()
-    movie_dir = parsed_args.source_dir
-    rating = parsed_args.rating
-    genre = parsed_args.genre
-
     try:
-        scan_dir(movie_dir, rating, genre)
+        run()
     except KeyboardInterrupt:
         print 'Exiting ...'
+
 
 if __name__ == '__main__':
     main()
