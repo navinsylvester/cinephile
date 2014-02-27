@@ -5,7 +5,7 @@ Credits
 Development Lead
 ----------------
 
-* Audrey Roy <audreyr@gmail.com>
+* Navin Sylvester <navinsylvester@gmail.com>
 
 Contributors
 ------------
