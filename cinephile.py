@@ -230,7 +230,7 @@ def run():
 
     sub_parsers = parser.add_subparsers(help='Cinephile commands')
     movie_parser = sub_parsers.add_parser('movie', help='Movie commands')
-    movie_parser.add_argument('-s', '--source_dir', help='source directory of movies', required=True)
+    movie_parser.add_argument('-s', '--source_dir', help='Source directory of movies', required=True)
     movie_parser.add_argument('-r', '--rating', help='Fetch movies with imdb rating greater than or equal to provided value', type=float, required=True)
     movie_parser.add_argument('-g', '--genre', help='Filter by movie genre')
     movie_parser.set_defaults(func=run_movie_commands)
