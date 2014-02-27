@@ -9,6 +9,8 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
+readme = open('README.md').read()
+history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -25,7 +27,7 @@ setup(
     description='Python CLI tool to scan movie directory \
         recursively, normalize the filename and retrieve useful \
         information from imdb.',
-    long_description=read('README.md'),
+    long_description=readme + '\n\n' + history,
     license='MIT License',
     keywords='IMDB Movies Rating List',
     author='Navin Sylvester',
