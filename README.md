@@ -1,7 +1,7 @@
 cinephile
 =========
 
-Python CLI tool to scan movie directory recursively, normalize the filename and retrieve useful information from imdb. Cinephile can also be used to fetch subtitle file for a particular movie. See instructions below on how to use the tool.
+Python CLI tool to scan movie directory recursively, normalize the filename and retrieve useful information from imdb. Cinephile can also be used to fetch subtitle file for a particular movie in preferred language. See instructions below on how to use the tool.
 
 Features
 ========
