@@ -1,7 +1,7 @@
 cinephile
 =========
 
-Python CLI tool to scan movie directory recursively, normalize the filename and retrieve useful information from imdb.
+Python CLI tool to scan movie directory recursively, normalize the filename and retrieve useful information from imdb. Cinephile can also be used to fetch subtitle file for a particular movie. See instructions below on how to use the tool.
 
 Features
 ========
@@ -87,7 +87,7 @@ Add IMDB *fuzzy* search (optional) and select functionality. For example,
     8.  Title: Hunger Games (Year:2012)
     9.  Title: The Hunger Games: A Reenactment - Part 1 (Year:2013)
     10. Title: Hunger Games: The Second Quarter Quell (Year:2011)
-    
+
     Select the movie (Number) : 2
 
     Title       : The Hunger Games: Catching Fire
@@ -98,7 +98,7 @@ Add IMDB *fuzzy* search (optional) and select functionality. For example,
     Director    : Francis Lawrence
     Runtime     : 146 min
     Rated       : PG-13
-    Plot        : Katniss Everdeen and Peeta Mellark become targets of the Capitol after their victory in the 74th 
+    Plot        : Katniss Everdeen and Peeta Mellark become targets of the Capitol after their victory in the 74th
     Hunger Games sparks a rebellion in the Districts of Panem.
     File path   : /Users/sreejitk/Movies/The Hunger Games Catching Fire(2013)/The.Hunger.Games.Catching.Fire.2013.\
     720p.BluRay.x264.YIFY.mp4
