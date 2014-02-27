@@ -41,7 +41,7 @@ If you are proposing a feature:
 * Explain in detail how it would work.
 * Keep the scope as narrow as possible, to make it easier to implement.
 * Remember that this is a volunteer-driven project, and that contributions
-  are welcome :)
+  are welcome :).
 
 Implement Features
 ~~~~~~~~~~~~~~~~~~
@@ -80,4 +80,4 @@ Now you can make your changes locally.
     $ git commit -m "Your detailed description of your changes."
     $ git push origin name-of-your-bugfix-or-feature
 
-8. Submit a pull request through the GitHub website.
+6. Submit a pull request through the GitHub website.
