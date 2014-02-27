@@ -29,7 +29,7 @@ To get IMDB info
 
     cinephile movie -s movie_dir -r imdb_rating [-g genre]
 
-To download subtititles
+To download subtitles
 
     cinephile subtitle -f movie_file -l language
 
