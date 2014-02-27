@@ -50,7 +50,7 @@ Look through the GitHub issues for features. Anything tagged with "enhancement"
 is open to whoever wants to implement it.
 
 Once you create a new feature, submit a pull request adding it to
-README.rst.
+README.md.
 
 Setting Up the Code for Local Development
 -----------------------------------------
