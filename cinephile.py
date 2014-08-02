@@ -194,7 +194,7 @@ def get_movies_set(movie_dir, skip_dupes):
         if len(config['ignore_dir']):
             for ignore in config['ignore_dir']:
                 if ignore in dirnames:
-                    dirnames.remove(val)
+                    dirnames.remove(ignore)
 
         for filename in filenames:
             # skip 'em pesky dot files
