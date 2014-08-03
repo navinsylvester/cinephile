@@ -11,6 +11,26 @@ import yaml
 import argparse
 import hashlib
 
+def get_config():
+    config_file = None
+    config_paths = [
+        'cinephile.yaml',
+        os.path.expanduser('~/.cinephile.yaml'),
+        os.path.join(os.path.dirname(__file__), 'cinephile.yaml')
+    ]
+
+    for path in config_paths:
+        if os.path.exists(path):
+            config_file = path
+            break
+
+    if not config_file:
+        print 'No cinephile.yaml found.'
+        return
+
+    #Read yaml file to get config
+    with open(config_file) as stream:
+        return yaml.load(stream)
 
 def get_hash(name):
     """ This hash function receives the name of the file
@@ -25,7 +45,7 @@ def get_hash(name):
     return hashlib.md5(data).hexdigest()
 
 
-def fetch_subtitles(filename, language='en'):
+def fetch_subtitles(filename, movie_name, quiet, language='en'):
     """ Fetch subtitles from SubDB. Saves it in the same directory
     as the movie file.
     """
@@ -44,6 +64,7 @@ def fetch_subtitles(filename, language='en'):
     req.add_header('User-Agent', user_agent)
 
     try:
+        if not quiet and movie_name: print 'Trying to fetch subtitle for "' + movie_name + '"...'
         response = urllib2.urlopen(req)
         ext = response.info()['Content-Disposition'].split(".")[1]
         sub_file = os.path.splitext(filename)[0] + "." + ext
@@ -51,12 +72,14 @@ def fetch_subtitles(filename, language='en'):
         with open(sub_file, "wb") as fout:
             fout.write(response.read())
 
-        print 'Subtitle saved to %s.' % sub_file
+        print 'Subtitle saved to ' + sub_file
+        return True
     except urllib2.URLError as e:
         print 'Error fetching subtitles (Code: %r, Message: %s).' % (e.errno, e.reason)
     except Exception:
         print 'Unknown Error'
 
+    return False
 
 def get_movie_info(movie_filename, order_list, rating, votes, full_path, genre=None):
     api_uri = "www.omdbapi.com"
@@ -151,37 +174,19 @@ def convert_roman(roman_str):
 
     print total
 
-
-def scan_dir(movie_dir, rating, genre):
+def get_movies_set(movie_dir, skip_dupes):
     if not os.path.exists(movie_dir):
         print "Scan directory doesn't exist"
         return
 
-    config_file = None
-    config_paths = [
-        'cinephile.yaml',
-        os.path.expanduser('~/.cinephile.yaml'),
-        os.path.join(os.path.dirname(__file__), 'cinephile.yaml')
-    ]
-
-    for path in config_paths:
-        if os.path.exists(path):
-            config_file = path
-            break
-
-    if not config_file:
-        print 'No cinephile.yaml found.'
-        return
-
-    #Read yaml file to get config
-    with open(config_file) as stream:
-        config = yaml.load(stream)
+    config = get_config()
 
     file_ext_list = config['file_ext'].replace(",", "|")
     purge_words_list = config['purge_words'].replace(",", "|")
 
-    # Remove duplicate movie names
-    movies = set()
+    movies = []
+    # Skip duplicate movie names
+    dupes = set()
 
     #Scan movie dir recursively
     for root, dirnames, filenames in os.walk(movie_dir, ):
@@ -189,9 +194,12 @@ def scan_dir(movie_dir, rating, genre):
         if len(config['ignore_dir']):
             for ignore in config['ignore_dir']:
                 if ignore in dirnames:
-                    dirnames.remove(val)
+                    dirnames.remove(ignore)
 
         for filename in filenames:
+            # skip 'em pesky dot files
+            if filename[0] == '.': continue
+
             full_path = []
 
             if len(file_ext_list) > 1:
@@ -206,23 +214,40 @@ def scan_dir(movie_dir, rating, genre):
                     full_path.append(os.path.join(root, filename))
 
                     #Get movie details
-                    if movie_filename not in movies:
-                        get_movie_info(movie_filename, config['order_list'], rating, config['votes'], full_path, genre)
-                        movies.add(movie_filename)
+                    if movie_filename not in dupes:
+                        movies.append({'movie_filename': movie_filename, 'full_path': full_path})
+                        dupes.add(movie_filename)
             else:
                 print "Add file extensions to scan in cinephile.yaml"
                 return
 
+    return movies
 
 def run_movie_commands(args):
     movie_dir = args.source_dir
     rating = args.rating
     genre = args.genre
-    scan_dir(movie_dir, rating, genre)
+    movies = get_movies_set(movie_dir, True)
+    config = get_config()
+
+    for movie in movies:
+        get_movie_info(movie['movie_filename'], config['order_list'], rating, config['votes'], movie['full_path'], genre)
 
 
 def run_subtitle_commands(args):
-    fetch_subtitles(args.filename, args.language)
+    if args.recursive_scan:
+        movies = get_movies_set(args.filename, False)
+        total_movies = len(movies)
+        success_count = 0
+        print 'A total of %d movies found.' % (total_movies)
+        for movie in movies:
+            ret = fetch_subtitles(movie['full_path'][0], movie['movie_filename'], args.stfu, args.language)
+            if ret: success_count += 1
+        print '=' * 80
+        print 'Total movies: %d Got subtitles for: %d Failed for: %d' % (total_movies, success_count, total_movies - success_count)
+        print '=' * 80
+    else:
+        fetch_subtitles(args.filename, None, True, args.language)
 
 
 def run():
@@ -236,8 +261,10 @@ def run():
     movie_parser.set_defaults(func=run_movie_commands)
 
     sub_parser = sub_parsers.add_parser('subtitle', help='Subtitles commands')
-    sub_parser.add_argument('-f', '--fetch', dest='filename', help='Fetch subtitles', required=True)
+    sub_parser.add_argument('-f', '--fetch', dest='filename', help='Name of file or directory to fetch subtitles for', required=True)
     sub_parser.add_argument('-l', '--lang', dest='language', help='Choose Language (en,es,fr,it,nl,pl,pt,ro,sv,tr)')
+    sub_parser.add_argument('-R', '--recursive', dest='recursive_scan', help='Scan source directory recursively for movies to fetch subtitles for', action='store_true')
+    sub_parser.add_argument('-q', '--quiet', dest='stfu', help='Don\'t print what the program is up to while fetching subtitles', action='store_true')
     sub_parser.set_defaults(func=run_subtitle_commands)
 
     args = parser.parse_args()
